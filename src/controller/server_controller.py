@@ -5,7 +5,7 @@ class ServerController:
 
     def __init__(self, port: int, name: str):
         self.server = Server(name=name, address="localhost:" + str(port))
-        ## Call reggister server of registry server
+        # Call register server of registry server
 
     def get_all_client(self):
         pass
