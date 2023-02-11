@@ -4,7 +4,7 @@ from src.service.server_service import ServerService
 class ServerController:
 
     def __init__(self, port: int, name: str):
-        self.service = ServerService(name=name, address="localhost:" + str(port))
+        self.service = ServerService(name=name, port=port)
         # Call register server of registry server
 
     def get_all_client(self):
