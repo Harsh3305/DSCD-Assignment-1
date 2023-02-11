@@ -1,16 +1,34 @@
+import uuid
+
+from src.model.article import Article
+from src.model.article_response import ArticleResponse
+
+
 class Client:
 
-    def join_server(self):
+    def __init__(self, address: str):
+        self.uuid = uuid.uuid1()
+        self.address = address
+        self.join_server_address = []
+
+    def join_server(self, server_address: str):
+        if server_address in self.join_server_address:
+            return Exception("Server was already joined")
+        else:
+            self.join_server_address.append(server_address)
+
+    def leave_server(self, server_address):
+        if server_address not in self.join_server_address:
+            return Exception("First join server")
+        else:
+            ## TODO: REmove server
+            self.join_server_address.remove(server_address)
+
+    def get_articles(self, article: Article):
         pass
 
-    def leave_server(self):
-        pass
-
-    def get_articles(self):
-        pass
-
-    def publish_article(self):
+    def publish_article(self, article: ArticleResponse):
         pass
 
     def get_all_registered_server(self):
-        pass
+        return self.join_server_address.copy()

@@ -1,16 +1,14 @@
+from src.service.server_service import ServerService
+
+
 class ServerController:
 
-    def create_server(self):
-        pass
+    def __init__(self, port: int, name: str):
+        self.service = ServerService(name=name, address="localhost:" + str(port))
+        # Call register server of registry server
 
-    def delete_server(self):
-        pass
+    def get_all_client(self):
+        return self.service.get_all_client()
 
-    def select_server(self):
-        pass
-
-    def send_article(self):
-        pass
-
-    def publish_article(self):
-        pass
+    def join_server(self, server_address: str):
+        return self.service.join_server(server_address=server_address)
