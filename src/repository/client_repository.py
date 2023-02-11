@@ -20,6 +20,7 @@ class ClientRepository:
         try:
             self.client.leave_server(server_address=server_address)
             ## TODO: Leave server
+            return "SUCCESS"
         except Exception as e:
             return "FAIL"
 
