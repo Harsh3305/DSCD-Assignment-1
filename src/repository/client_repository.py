@@ -2,16 +2,19 @@ from src.model.client import Client
 from src.model.article_response import ArticleResponse
 from src.model.article import Article
 
+import zmq
+import json
 
 class ClientRepository:
     def __init__(self, port: int):
-        self.client = Client(address="localhost:" + str(port))
+        self.client = Client(address="tcp://127.0.0.1:" + str(port))
         self.current_server = ""
 
     def join_server(self, server_address):
         try:
             self.client.join_server(server_address=server_address)
             ## TODO: Join server
+
             return "SUCCESS"
         except Exception as e:
             return "FAIL"
