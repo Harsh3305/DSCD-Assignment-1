@@ -2,8 +2,6 @@ from src.model.client import Client
 from src.model.article_response import ArticleResponse
 from src.model.article import Article
 
-import zmq
-import json
 
 class ClientRepository:
     def __init__(self, port: int):
@@ -31,8 +29,11 @@ class ClientRepository:
         return self.client.get_all_registered_server()
 
     def choose_server(self, server_address):
-        self.current_server = server_address
-        return "SUCCESS"
+        if server_address in self.get_all_join_server():
+            self.current_server = server_address
+            return "SUCCESS"
+        else:
+            return "FAIL"
 
     def get_article(self, article: Article):
         pass
