@@ -12,4 +12,3 @@ def get_all_servers(registry_server_controller: RegistryServerController):
 if __name__ == "__main__":
     controller = create_controller()
     assert get_all_servers(controller) == []
-    pass

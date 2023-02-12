@@ -7,11 +7,11 @@ def create_controller(port):
     return ClientController(port=port)
 
 
-def join_serve(client_controller: ClientController,server_address: str):
+def join_serve(client_controller: ClientController, server_address: str):
     return client_controller.join_server(server_address=server_address)
 
 
-def leave_server(client_controller: ClientController,server_address: str):
+def leave_server(client_controller: ClientController, server_address: str):
     return client_controller.leave_server(server_address=server_address)
 
 
@@ -47,5 +47,3 @@ if __name__ == "__main__":
     assert get_all_join_server(controller2) == ["server_address_1"]
     assert join_serve(controller2, "server_address_2") == "SUCCESS"
     assert choose_current_serve("server_address_1", controller2) == "SUCCESS"
-
-
