@@ -1,10 +1,11 @@
+from src.model.registryServer import RegistryServer
 from src.repository.registry_server_repository import RegistryServeRepository
 
 
 class RegistryServerService:
 
     def get_registry_server_address(self):
-        return get_registry_server_address()
+        return RegistryServer.registry_server_address
 
     def __init__(self):
         self.repository = RegistryServeRepository()

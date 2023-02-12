@@ -34,7 +34,7 @@ class RegistryServer:
                 if req == "REGISTER_SERVER":
                     res = self.register_address(data["address"])
                 elif req == "GET_ALL_SERVERS":
-                    res = self.get_all_server()
+                    res = self.get_all_server(data["address"])
             except Exception as e:
                 print(e)
                 res = "FAIL"
@@ -56,13 +56,17 @@ class RegistryServer:
         socket.disconnect(address)
 
     def register_address(self, server_address):
+        # Logging
+        print("JOIN REQUEST FROM " + server_address)
         if server_address in self.servers:
             raise Exception("Server already exist")
         else:
             self.servers.append(server_address)
             return "SUCCESS"
 
-    def get_all_server(self):
+    def get_all_server(self, client_address):
+        # Logging
+        print("SERVER LIST REQUEST FROM " + client_address)
         return self.servers.copy()
 
     def remove_server(self, serve_address):

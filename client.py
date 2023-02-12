@@ -55,7 +55,7 @@ if __name__ == "__main__":
             print("3) Join a server")
             print("4) Leave a server")
             print("5) Choose a server to do operation")
-            print("6) Exist program")
+            print("6) Exit program")
 
             selected_option = int(input(" Selected option is: "))
 
