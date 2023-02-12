@@ -30,3 +30,9 @@ class ClientController:
 
     def remove_client(self):
         return self.service.remove_client()
+
+    def is_server_chosen(self):
+        return self.service.is_server_chosen()
+
+    def get_chosen_server(self):
+        return self.service.get_chosen_server()

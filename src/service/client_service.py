@@ -29,3 +29,9 @@ class ClientService:
         for server in self.get_all_join_server():
             self.leave_server(server.address)
         return "SUCCESS"
+
+    def is_server_chosen(self):
+        return self.repository.is_server_chosen()
+
+    def get_chosen_server(self):
+        return self.repository.current_server
