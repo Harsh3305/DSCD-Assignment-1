@@ -4,7 +4,7 @@ from src.repository.server_repository import ServerRepository
 class ServerService:
 
     def __init__(self, port: int, name: str):
-        self.repository = ServerRepository(port=port)
+        self.repository = ServerRepository(port=port, name=name)
 
     def get_all_client(self):
         return self.repository.get_all_client()

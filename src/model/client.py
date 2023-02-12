@@ -19,9 +19,9 @@ class Client:
 
     def leave_server(self, server_address):
         if server_address not in self.join_server_address:
-            return Exception("First join server")
+            raise Exception("First join server")
         else:
-            ## TODO: REmove server
+            ## TODO: Remove server
             self.join_server_address.remove(server_address)
 
     def get_articles(self, article: Article):

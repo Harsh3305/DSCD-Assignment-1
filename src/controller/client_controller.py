@@ -11,19 +11,19 @@ class ClientController:
         self.service = ClientService(port=port)
 
     def join_server(self, server_address):
-        self.service.join_server(server_address=server_address)
+        return self.service.join_server(server_address=server_address)
 
     def leave_server(self, server_address):
-        self.service.leave_server(server_address=server_address)
+        return self.service.leave_server(server_address=server_address)
 
     def get_all_join_server(self):
-        self.service.get_all_join_server()
+        return self.service.get_all_join_server()
 
     def choose_current_server(self, server_address):
-        self.service.choose_server(server_address=server_address)
+        return self.service.choose_server(server_address=server_address)
 
     def get_article(self, article: Article):
-        self.service.get_article(article)
+        return self.service.get_article(article)
 
     def post_article(self, article: ArticleResponse):
         return self.service.post_article(article)
