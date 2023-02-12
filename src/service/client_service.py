@@ -35,3 +35,6 @@ class ClientService:
 
     def get_chosen_server(self):
         return self.repository.current_server
+
+    def get_all_servers(self):
+        return self.repository.get_all_server()

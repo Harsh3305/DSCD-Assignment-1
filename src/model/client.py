@@ -1,7 +1,10 @@
 import uuid
 
+import zmq
+
 from src.model.article import Article
 from src.model.article_response import ArticleResponse
+from src.model.registryServer import RegistryServer
 
 
 class Client:

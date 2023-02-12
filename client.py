@@ -60,8 +60,7 @@ if __name__ == "__main__":
             selected_option = int(input(" Selected option is: "))
 
             if selected_option == 1:
-                # TODO:
-                pass
+                print(controller.get_all_servers())
             elif selected_option == 2:
                 print(controller.get_all_join_server())
             elif selected_option == 3:

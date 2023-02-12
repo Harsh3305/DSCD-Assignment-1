@@ -13,3 +13,7 @@ class RegistryServeRepository:
         self.registry_server.register_address(server_address=server_address)
         # TODO: add call
         return "SUCCESS"
+
+    def end(self):
+        self.registry_server.is_end = True
+        return "SUCCESS"

@@ -15,3 +15,6 @@ class ServerRepository:
     def end(self):
         self.server.destroy = True
         return "SUCCESS"
+
+    def get_address(self):
+        return self.server.address
