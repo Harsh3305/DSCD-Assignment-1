@@ -12,6 +12,8 @@ class ClientRepository:
         self.client = Client(address="tcp://127.0.0.1:" + str(port))
         self.current_server = ""
         
+    def is_server_chosen(self):
+        return not self.current_server == ""
 
     def request(self, tag: str, server_address: str, payload):
 
@@ -68,7 +70,9 @@ class ClientRepository:
         return self.client.get_all_registered_server()
 
     def choose_server(self, server_address):
-        if server_address in self.get_all_join_server():
+        if server_address == "":
+            self.current_server = server_address
+        elif server_address in self.get_all_join_server():
             self.current_server = server_address
             return "SUCCESS"
         else:

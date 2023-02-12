@@ -16,3 +16,17 @@ class ArticleResponse(Article):
             raise Exception("Content size must be less than")
         else:
             self.Content = Content
+
+    def to_json(self):
+        json_obj = super().to_json()
+        json_obj["Content"] = self.Content
+        return json_obj
+
+    @staticmethod
+    def from_json(json_obj: dict):
+        return ArticleResponse(
+            Type=json_obj["Type"],
+            Author=json_obj["Author"],
+            Date=json_obj["Date"],
+            Content=json_obj["Content"],
+        )

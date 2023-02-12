@@ -48,6 +48,7 @@ class Server:
                         Date=data["Date"],
                         Type=data["Type"]
                     ))
+                    res = [article.to_json() for article in res]
                 elif req == 'PUBLISH_ARTICLE':
                     res = self.publish_article(ArticleResponse(
                         Author=data["Author"],
@@ -55,6 +56,7 @@ class Server:
                         Type=data["Type"],
                         Content=data["Content"]
                     ))
+                    res = res.to_json()
                 else:
                     return "FAIL"
                 self.response(tag=req, client_address=data["client_address"], response=res)
