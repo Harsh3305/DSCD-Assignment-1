@@ -11,3 +11,6 @@ class ServerService:
 
     def join_server(self, server_address: str):
         return self.repository.join_server(server_address=server_address)
+
+    def end(self):
+        return self.repository.end()

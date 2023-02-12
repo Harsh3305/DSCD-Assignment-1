@@ -7,7 +7,7 @@ from src.model.article_response import ArticleResponse
 class Client:
 
     def __init__(self, address: str):
-        self.uuid = uuid.uuid1()
+        self.uuid = str(uuid.uuid1())
         self.address = address
         self.join_server_address = []
 
