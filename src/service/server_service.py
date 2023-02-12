@@ -14,3 +14,6 @@ class ServerService:
 
     def end(self):
         return self.repository.end()
+
+    def get_address(self):
+        return self.repository.get_address()

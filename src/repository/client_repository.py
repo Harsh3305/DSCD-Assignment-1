@@ -5,6 +5,7 @@ import zmq
 from src.model.client import Client
 from src.model.article_response import ArticleResponse
 from src.model.article import Article
+from src.model.registryServer import RegistryServer
 
 
 class ClientRepository:
@@ -90,7 +91,7 @@ class ClientRepository:
         self.response(tag)
 
     def post_article(self, article: ArticleResponse):
-        tag="PUBLISH_ARTICLE"
+        tag = "PUBLISH_ARTICLE"
         self.request(tag, server_address=self.current_server, payload={
             "client_uuid": self.client.uuid,
             "client_address": self.client.address,
@@ -100,3 +101,27 @@ class ClientRepository:
             "Content": article.Content
         })
         self.response(tag)
+
+    def get_all_server(self):
+
+        pub_socket = zmq.Context().socket(zmq.PUB)
+        pub_socket.bind(RegistryServer.registry_server_address)
+        time.sleep(1)
+        pub_socket.send_string("GET_ALL_SERVERS", flags=zmq.SNDMORE)
+        pub_socket.send_json({
+            "address": self.client.address,
+            "uuid": self.client.uuid,
+        })
+        # pub_socket.disconnect(RegistryServer.registry_server_address)
+
+        sub_socket = zmq.Context().socket(zmq.SUB)
+        sub_socket.connect(self.client.address)
+        time.sleep(1)
+        sub_socket.subscribe("RESPONSE_GET_ALL_SERVERS")
+        req = sub_socket.recv_string()
+        data = sub_socket.recv_json()
+        print({
+            "req": req,
+            "res": data
+        })
+        return data

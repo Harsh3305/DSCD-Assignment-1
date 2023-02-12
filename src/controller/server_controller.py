@@ -1,3 +1,8 @@
+import time
+
+import zmq
+
+from src.model.registryServer import RegistryServer
 from src.service.server_service import ServerService
 
 
@@ -6,6 +11,13 @@ class ServerController:
     def __init__(self, port: int, name: str):
         self.service = ServerService(name=name, port=port)
         # Call register server of registry server
+        socket = zmq.Context().socket(zmq.PUB)
+        socket.bind(RegistryServer.registry_server_address)
+        time.sleep(1)
+        socket.send_string("REGISTER_SERVER", flags=zmq.SNDMORE)
+        socket.send_json({
+            "address": self.service.get_address()
+        })
 
     def get_all_client(self):
         return self.service.get_all_client()

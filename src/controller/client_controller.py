@@ -36,3 +36,6 @@ class ClientController:
 
     def get_chosen_server(self):
         return self.service.get_chosen_server()
+
+    def get_all_servers(self):
+        return self.service.get_all_servers()
