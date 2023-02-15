@@ -2,11 +2,16 @@ from src.controller.client_controller import ClientController
 from src.model.article import Article
 from src.model.article_response import ArticleResponse
 
+
 def convert_to_none(data):
     if data == "":
         return None
     else:
         return data
+
+def type_cast_to_null(data: str):
+    if data is None:
+        return "<BLANK>"
 
 if __name__ == "__main__":
     port = int(input("Enter Port Number: "))
@@ -29,23 +34,31 @@ if __name__ == "__main__":
                 author = convert_to_none(input("Enter author of article \n"))
                 content = convert_to_none(input("Enter content of article \n"))
 
-                article = ArticleResponse(Content=content, Author=author, Type=type, Date="2023-02-12")
-                response = controller.post_article(article=article)
-                print(response)
+                if author is None:
+                    print("author cannot be empty")
+                else:
+                    article = ArticleResponse(Content=content, Author=author, Type=type, Date="2023-02-12")
+                    response = controller.post_article(article=article)
+                    print(response)
 
             elif selected_option == 2:
                 type = convert_to_none(input("Enter type to filter articles\n"))
                 author = convert_to_none(input("Enter author to filter articles \n"))
                 date = convert_to_none(input("Enter date to filter articles \n"))
-
+                print(
+                    "For " + type_cast_to_null(type) + ", " + type_cast_to_null(author) + ", " + type_cast_to_null(date)
+                )
                 article = Article(
                     Type=type,
                     Author=author,
                     Date=date
                 )
 
-                response = controller.get_article(article=article)
-                print(response)
+                try:
+                    response = controller.get_article(article=article)
+                    print(response)
+                except Exception as e:
+                    print("FAIL")
             else:
                 controller.choose_current_server("")
         else:
@@ -60,7 +73,9 @@ if __name__ == "__main__":
             selected_option = int(input(" Selected option is: "))
 
             if selected_option == 1:
-                print(controller.get_all_servers())
+                servers = controller.get_all_servers()
+                for server in servers:
+                    print(server)
             elif selected_option == 2:
                 print(controller.get_all_join_server())
             elif selected_option == 3:

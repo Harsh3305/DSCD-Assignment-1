@@ -32,7 +32,7 @@ class RegistryServer:
             res = "SUCCESS"
             try:
                 if req == "REGISTER_SERVER":
-                    res = self.register_address(data["address"])
+                    res = self.register_address(data["address"], data["name"])
                 elif req == "GET_ALL_SERVERS":
                     res = self.get_all_server(data["address"])
             except Exception as e:
@@ -55,13 +55,16 @@ class RegistryServer:
         socket.send_json(res)
         socket.disconnect(address)
 
-    def register_address(self, server_address):
+    def register_address(self, server_address: str, name: str):
         # Logging
         print("JOIN REQUEST FROM " + server_address)
         if server_address in self.servers:
             raise Exception("Server already exist")
         else:
-            self.servers.append(server_address)
+            self.servers.append({
+                "address": server_address,
+                "name": name
+            })
             return "SUCCESS"
 
     def get_all_server(self, client_address):
