@@ -12,12 +12,11 @@ class ClientRepository:
     def __init__(self, port: int):
         self.client = Client(address="tcp://127.0.0.1:" + str(port))
         self.current_server = ""
-        
+
     def is_server_chosen(self):
         return not self.current_server == ""
 
     def request(self, tag: str, server_address: str, payload):
-
 
         context = zmq.Context()
         socket = context.socket(zmq.PUB)
@@ -32,7 +31,7 @@ class ClientRepository:
         socker_response = socker_response.socket(zmq.SUB)
         socker_response.connect(self.client.address)
         # time.sleep(1)
-        tag = "RESPONSE_"+tag
+        tag = "RESPONSE_" + tag
         socker_response.subscribe(tag)
         res = socker_response.recv_string()
         data = socker_response.recv_json()
@@ -44,7 +43,7 @@ class ClientRepository:
         try:
             self.client.join_server(server_address=server_address)
 
-            tag="JOIN_SERVER"
+            tag = "JOIN_SERVER"
             self.request(tag, server_address=server_address, payload={
                 "client_uuid": self.client.uuid,
                 "client_address": self.client.address
@@ -57,7 +56,7 @@ class ClientRepository:
     def leave_server(self, server_address):
         try:
             self.client.leave_server(server_address=server_address)
-            tag="LEAVE_SERVER"
+            tag = "LEAVE_SERVER"
             self.request(tag, server_address=server_address, payload={
                 "client_uuid": self.client.uuid,
                 "client_address": self.client.address
@@ -80,7 +79,7 @@ class ClientRepository:
             return "FAIL"
 
     def get_article(self, article: Article):
-        tag="GET_ARTICLE"
+        tag = "GET_ARTICLE"
         self.request(tag, server_address=self.current_server, payload={
             "client_uuid": self.client.uuid,
             "client_address": self.client.address,
@@ -124,4 +123,7 @@ class ClientRepository:
             "req": req,
             "res": data
         })
-        return data
+        new_data = []
+        for d in data:
+            new_data.append(d["name"] + " - " + d["address"])
+        return new_data

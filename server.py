@@ -6,6 +6,8 @@ if __name__ == "__main__":
     print("Creating a server with port number " + str(port) + " and with name " + name)
 
     controller = ServerController(port, name=name)
+
+    
     input("Press enter to end this: ")
-    controller.get_all_client()
-    controller.end()
+    # controller.get_all_client()
+    # controller.end()

@@ -34,7 +34,7 @@ class Server:
             req = self.socket.recv_string()
             data = self.socket.recv_json()
             print({
-                "req":req,
+                "req": req,
                 "data": data
             })
             try:
@@ -47,7 +47,7 @@ class Server:
                         Author=data["Author"],
                         Date=data["Date"],
                         Type=data["Type"]
-                    ))
+                    ), client_uuid=data["client_uuid"])
                     res = [article.to_json() for article in res]
                 elif req == 'PUBLISH_ARTICLE':
                     res = self.publish_article(ArticleResponse(
@@ -55,8 +55,7 @@ class Server:
                         Date=data["Date"],
                         Type=data["Type"],
                         Content=data["Content"]
-                    ))
-                    res = res.to_json()
+                    ), client_uuid=data["client_uuid"])
                 else:
                     return "FAIL"
                 self.response(tag=req, client_address=data["client_address"], response=res)
@@ -78,6 +77,8 @@ class Server:
         socket.disconnect(client_address)
 
     def accept_connection_request(self, client_uuid: str, client_address: str):
+        # Logging
+        print("JOIN REQUEST FROM " + client_uuid)
         if len(self.CLIENTELE) > Server.MAX_CLIENT:
             raise Exception("Client limit reach for this server")
         elif client_uuid in self.CLIENTELE:
@@ -87,13 +88,17 @@ class Server:
             return "SUCCESS"
 
     def leave_client(self, client_uuid: str):
+        # Logging
+        print("LEAVE REQUEST FROM " + client_uuid)
         if client_uuid in self.CLIENTELE:
             del self.CLIENTELE[client_uuid]
             return "SUCCESS"
         else:
             raise Exception("Client is not a member of this server")
 
-    def get_articles(self, article: Article):
+    def get_articles(self, article: Article, client_uuid: str):
+        # Logging
+        print("JOIN REQUEST FROM " + client_uuid)
         process_articles = self.articles.copy()
         if article.Type is not None:
             process_articles = [
@@ -109,7 +114,9 @@ class Server:
             ]
         return process_articles
 
-    def publish_article(self, article: ArticleResponse):
+    def publish_article(self, article: ArticleResponse, client_uuid: str):
+        # Logging
+        print("ARTICLE PUBLISH FROM "+client_uuid)
         self.articles.append(article)
         return "SUCCESS"
 

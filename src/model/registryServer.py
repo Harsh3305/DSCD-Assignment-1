@@ -6,6 +6,7 @@ import zmq
 
 class RegistryServer:
     registry_server_address = "tcp://127.0.0.1:8080"
+    MAX_SERVER = 5
 
     def __init__(self):
         self.servers = []
@@ -32,9 +33,9 @@ class RegistryServer:
             res = "SUCCESS"
             try:
                 if req == "REGISTER_SERVER":
-                    res = self.register_address(data["address"])
+                    res = self.register_address(data["address"], data["name"])
                 elif req == "GET_ALL_SERVERS":
-                    res = self.get_all_server()
+                    res = self.get_all_server(data["address"])
             except Exception as e:
                 print(e)
                 res = "FAIL"
@@ -46,6 +47,7 @@ class RegistryServer:
                 self.response(data["address"], req, res)
             except Exception as e:
                 print(e)
+                self.response(data["address"], req, "FAIL")
 
     def response(self, address, tag: str, res):
         socket = zmq.Context().socket(zmq.PUB)
@@ -53,16 +55,24 @@ class RegistryServer:
         time.sleep(5)
         socket.send_string("RESPONSE_" + tag, flags=zmq.SNDMORE)
         socket.send_json(res)
-        socket.disconnect(address)
 
-    def register_address(self, server_address):
+    def register_address(self, server_address: str, name: str):
+        # Logging
+        print("JOIN REQUEST FROM " + server_address)
         if server_address in self.servers:
             raise Exception("Server already exist")
+        elif self.servers >= self.MAX_SERVER:
+            raise Exception("MAX_SERVER limit reached")
         else:
-            self.servers.append(server_address)
+            self.servers.append({
+                "address": server_address,
+                "name": name
+            })
             return "SUCCESS"
 
-    def get_all_server(self):
+    def get_all_server(self, client_address):
+        # Logging
+        print("SERVER LIST REQUEST FROM " + client_address)
         return self.servers.copy()
 
     def remove_server(self, serve_address):

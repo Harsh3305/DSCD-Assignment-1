@@ -16,8 +16,18 @@ class ServerController:
         time.sleep(1)
         socket.send_string("REGISTER_SERVER", flags=zmq.SNDMORE)
         socket.send_json({
-            "address": self.service.get_address()
+            "address": self.service.get_address(),
+            "name": name
         })
+
+        socket = zmq.Context().socket(zmq.SUB)
+        socket.connect(self.service.get_address())
+        time.sleep(1)
+        socket.subscribe("RESPONSE_REGISTER_SERVER")
+        req = socket.recv_string()
+        data = socket.recv_json()
+        print(data)
+
 
     def get_all_client(self):
         return self.service.get_all_client()
