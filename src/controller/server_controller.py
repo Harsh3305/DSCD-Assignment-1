@@ -21,11 +21,12 @@ class ServerController:
         })
 
         socket = zmq.Context().socket(zmq.SUB)
-        socket.connect(RegistryServer.registry_server_address)
-        time.sleep(5)
+        socket.connect(self.service.get_address())
+        time.sleep(1)
         socket.subscribe("RESPONSE_REGISTER_SERVER")
-        socket.recv_string()
-        print(socket.recv_json())
+        req = socket.recv_string()
+        data = socket.recv_json()
+        print(data)
 
 
     def get_all_client(self):

@@ -6,6 +6,7 @@ import zmq
 
 class RegistryServer:
     registry_server_address = "tcp://127.0.0.1:8080"
+    MAX_SERVER = 5
 
     def __init__(self):
         self.servers = []
@@ -46,6 +47,7 @@ class RegistryServer:
                 self.response(data["address"], req, res)
             except Exception as e:
                 print(e)
+                self.response(data["address"], req, "FAIL")
 
     def response(self, address, tag: str, res):
         socket = zmq.Context().socket(zmq.PUB)
@@ -53,13 +55,14 @@ class RegistryServer:
         time.sleep(5)
         socket.send_string("RESPONSE_" + tag, flags=zmq.SNDMORE)
         socket.send_json(res)
-        socket.disconnect(address)
 
     def register_address(self, server_address: str, name: str):
         # Logging
         print("JOIN REQUEST FROM " + server_address)
         if server_address in self.servers:
             raise Exception("Server already exist")
+        elif self.servers >= self.MAX_SERVER:
+            raise Exception("MAX_SERVER limit reached")
         else:
             self.servers.append({
                 "address": server_address,
