@@ -133,6 +133,7 @@ class Server:
             raise Exception("Server already exist in join_server list")
         else:
             self.joined_server.append(address)
+            print(self.joined_server)
             return "SUCCESS"
 
     def join_server_request(self):
