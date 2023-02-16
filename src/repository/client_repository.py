@@ -87,7 +87,15 @@ class ClientRepository:
             "Date": article.Date,
             "Author": article.Author
         })
-        self.response(tag)
+
+        data = self.response(tag)
+
+        for i in range(len(data)):
+            raw_article = data[i]
+            print(str(i+1) + ")"+str(raw_article["Type"]))
+            print(str(raw_article["Author"]))
+            print(str(raw_article["Date"]))
+            print(str(raw_article["Content"]))
 
     def post_article(self, article: ArticleResponse):
         tag = "PUBLISH_ARTICLE"
