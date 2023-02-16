@@ -27,7 +27,7 @@ if __name__ == "__main__":
             print("Selected server is " + controller.get_chosen_server())
             print("Select an operation")
             print("1) Post an article")
-            print("2) Get an article")
+            print("2) Get articles from selected server")
             print("3) Go a step back")
             selected_option = int(input(" Selected option is: "))
 
