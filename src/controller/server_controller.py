@@ -28,7 +28,6 @@ class ServerController:
         data = socket.recv_json()
         print(data)
 
-
     def get_all_client(self):
         return self.service.get_all_client()
 

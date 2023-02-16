@@ -12,6 +12,8 @@ def convert_to_none(data):
 def type_cast_to_null(data: str):
     if data is None:
         return "<BLANK>"
+    else:
+        return data
 
 if __name__ == "__main__":
     port = int(input("Enter Port Number: "))

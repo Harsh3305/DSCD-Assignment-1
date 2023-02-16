@@ -6,7 +6,7 @@ import zmq
 
 class RegistryServer:
     registry_server_address = "tcp://127.0.0.1:8080"
-    MAX_SERVER = 5
+    MAX_SERVER = 10
 
     def __init__(self):
         self.servers = []
@@ -61,9 +61,12 @@ class RegistryServer:
         print("JOIN REQUEST FROM " + server_address)
         if server_address in self.servers:
             raise Exception("Server already exist")
-        elif self.servers >= self.MAX_SERVER:
+        elif len(self.servers) >= self.MAX_SERVER:
             raise Exception("MAX_SERVER limit reached")
         else:
+            for server in self.servers:
+                if server["address"] == server_address or server["name"] == name:
+                    raise Exception("Server already exist")
             self.servers.append({
                 "address": server_address,
                 "name": name
