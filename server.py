@@ -7,7 +7,8 @@ if __name__ == "__main__":
 
     controller = ServerController(port, name=name)
 
-    
-    input("Press enter to end this: ")
+    while True:
+        address = input("Enter server address which you want to join: \n")
+        print(controller.join_server(server_address=address))
     # controller.get_all_client()
     # controller.end()

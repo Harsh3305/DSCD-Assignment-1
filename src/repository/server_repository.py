@@ -1,3 +1,7 @@
+import time
+
+import zmq
+
 from src.model.server import Server
 
 
@@ -10,7 +14,11 @@ class ServerRepository:
         return self.clients.copy()
 
     def join_server(self, server_address: str):
-        pass
+        try:
+            return self.server.join_server(address=server_address)
+        except Exception as e:
+            print(e)
+            return "FAIL"
 
     def end(self):
         self.server.destroy = True
